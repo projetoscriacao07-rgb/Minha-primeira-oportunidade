@@ -207,11 +207,11 @@ const PORTUGUES = [
     explicacao: `Interpretar um texto significa entender a mensagem que ele quer transmitir.\n\nAntes de responder qualquer pergunta:\n✔ Leia com atenção.\n✔ Se precisar, leia novamente.\n✔ Procure palavras importantes.\n✔ Só depois responda.`,
     textoBase: `Ana começou a trabalhar como Jovem Aprendiz em uma empresa de tecnologia. Todos os dias ela chega 15 minutos antes do horário, organiza sua mesa e anota todas as atividades que precisa realizar. Com o tempo, ela ganhou a confiança da equipe e passou a ajudar outros colegas.`,
     perguntas: [
-      { texto: 'O que fez Ana conquistar a confiança da equipe?', opcoes: ['Ela faltava pouco.', 'Ela era organizada e pontual.', 'Ela trabalhava apenas meio período.', 'Ela fazia muitas pausas.'], correta: 1 },
-      { texto: 'Qual profissão Ana exerce?', opcoes: ['Médica.', 'Jovem Aprendiz.', 'Professora.', 'Advogada.'], correta: 1 },
-      { texto: 'Antes de começar a trabalhar, Ana...', opcoes: ['Conversava.', 'Organizava sua mesa.', 'Ia embora.', 'Almoçava.'], correta: 1 },
-      { texto: 'Qual característica o texto destaca?', opcoes: ['Preguiça.', 'Organização.', 'Desinteresse.', 'Atraso.'], correta: 1 },
-      { texto: 'Qual foi o resultado das atitudes de Ana?', opcoes: ['Foi demitida.', 'Ganhou confiança da equipe.', 'Mudou de empresa.', 'Pediu férias.'], correta: 1 }
+      { texto: 'O que fez Ana conquistar a confiança da equipe?', opcoes: ['Ela faltava pouco.', 'Ela era organizada e pontual.', 'Ela trabalhava apenas meio período.', 'Ela fazia muitas pausas.'], correta: 1, explicacao: 'O texto diz que Ana chega cedo, organiza a mesa e anota as atividades — por isso ganhou a confiança da equipe.' },
+      { texto: 'Qual profissão Ana exerce?', opcoes: ['Médica.', 'Jovem Aprendiz.', 'Professora.', 'Advogada.'], correta: 1, explicacao: 'O texto diz logo no início que Ana é Jovem Aprendiz.' },
+      { texto: 'Antes de começar a trabalhar, Ana...', opcoes: ['Conversava.', 'Organizava sua mesa.', 'Ia embora.', 'Almoçava.'], correta: 1, explicacao: 'O texto conta que ela organiza a mesa antes de começar.' },
+      { texto: 'Qual característica o texto destaca?', opcoes: ['Preguiça.', 'Organização.', 'Desinteresse.', 'Atraso.'], correta: 1, explicacao: 'O texto destaca a organização como principal característica de Ana.' },
+      { texto: 'Qual foi o resultado das atitudes de Ana?', opcoes: ['Foi demitida.', 'Ganhou confiança da equipe.', 'Mudou de empresa.', 'Pediu férias.'], correta: 1, explicacao: 'O texto conclui dizendo que ela ganhou a confiança da equipe.' }
     ],
     feedback: `Interpretar textos ajuda você a entender instruções, responder e-mails, conversar com clientes e realizar atividades com mais segurança. Continue assim!`
   },
@@ -220,11 +220,11 @@ const PORTUGUES = [
     mensagemSah: `Algumas palavras possuem o mesmo significado. Essas palavras são chamadas de sinônimos. Conhecer sinônimos ajuda você a escrever melhor e evita repetir sempre as mesmas palavras.`,
     explicacao: `Exemplos:\nFeliz = Alegre\nBonito = Belo\nComeçar = Iniciar\nRápido = Veloz\nGrande = Enorme`,
     perguntas: [
-      { texto: 'Qual é o sinônimo de "feliz"?', opcoes: ['Alegre', 'Triste', 'Bravo', 'Fraco'], correta: 0 },
-      { texto: 'Qual é o sinônimo de "começar"?', opcoes: ['Finalizar', 'Iniciar', 'Esquecer', 'Esperar'], correta: 1 },
-      { texto: 'Qual palavra significa o mesmo que "bonito"?', opcoes: ['Feio', 'Belo', 'Pequeno', 'Sujo'], correta: 1 },
-      { texto: 'Qual é o sinônimo de "rápido"?', opcoes: ['Devagar', 'Veloz', 'Longo', 'Baixo'], correta: 1 },
-      { texto: 'Qual palavra significa o mesmo que "grande"?', opcoes: ['Pequeno', 'Enorme', 'Curto', 'Fraco'], correta: 1 }
+      { texto: 'Qual é o sinônimo de "feliz"?', opcoes: ['Alegre', 'Triste', 'Bravo', 'Fraco'], correta: 0, explicacao: 'Feliz e Alegre têm o mesmo significado.' },
+      { texto: 'Qual é o sinônimo de "começar"?', opcoes: ['Finalizar', 'Iniciar', 'Esquecer', 'Esperar'], correta: 1, explicacao: 'Começar e Iniciar têm o mesmo significado.' },
+      { texto: 'Qual palavra significa o mesmo que "bonito"?', opcoes: ['Feio', 'Belo', 'Pequeno', 'Sujo'], correta: 1, explicacao: 'Bonito e Belo têm o mesmo significado.' },
+      { texto: 'Qual é o sinônimo de "rápido"?', opcoes: ['Devagar', 'Veloz', 'Longo', 'Baixo'], correta: 1, explicacao: 'Rápido e Veloz têm o mesmo significado.' },
+      { texto: 'Qual palavra significa o mesmo que "grande"?', opcoes: ['Pequeno', 'Enorme', 'Curto', 'Fraco'], correta: 1, explicacao: 'Grande e Enorme têm o mesmo significado.' }
     ],
     feedback: `Quanto maior for seu vocabulário, mais fácil será se comunicar em entrevistas e no ambiente de trabalho.`
   },
@@ -284,11 +284,11 @@ const MATEMATICA = [
     curiosidade: `A Matemática aparece praticamente todos os dias no trabalho. Ela ajuda a conferir dinheiro, calcular descontos, organizar planilhas, controlar estoque e muito mais.`,
     resumo: `Adicionar é juntar valores ou quantidades.`,
     perguntas: [
-      { texto: 'Quanto é: 12 + 8', opcoes: ['18', '20', '22', '24'], correta: 1 },
-      { texto: 'Mayara comprou um caderno por R$ 18,00 e uma caneta por R$ 7,00. Quanto ela gastou?', opcoes: ['R$ 25,00', 'R$ 24,00', 'R$ 26,00', 'R$ 27,00'], correta: 0 },
-      { texto: '35 + 25 =', opcoes: ['50', '60', '65', '70'], correta: 1 },
-      { texto: '18 + 12 =', opcoes: ['28', '30', '32', '34'], correta: 1 },
-      { texto: '45 + 15 =', opcoes: ['50', '55', '60', '65'], correta: 2 }
+      { texto: 'Quanto é: 12 + 8', opcoes: ['18', '20', '22', '24'], correta: 1, explicacao: '12 + 8 = 20.' },
+      { texto: 'Mayara comprou um caderno por R$ 18,00 e uma caneta por R$ 7,00. Quanto ela gastou?', opcoes: ['R$ 25,00', 'R$ 24,00', 'R$ 26,00', 'R$ 27,00'], correta: 0, explicacao: 'R$ 18,00 + R$ 7,00 = R$ 25,00.' },
+      { texto: '35 + 25 =', opcoes: ['50', '60', '65', '70'], correta: 1, explicacao: '35 + 25 = 60.' },
+      { texto: '18 + 12 =', opcoes: ['28', '30', '32', '34'], correta: 1, explicacao: '18 + 12 = 30.' },
+      { texto: '45 + 15 =', opcoes: ['50', '55', '60', '65'], correta: 2, explicacao: '45 + 15 = 60.' }
     ],
     feedback: `Você acabou de aprender como funciona a adição. Essa conta será utilizada muitas vezes na sua vida profissional. Continue assim!`
   },
@@ -299,11 +299,11 @@ const MATEMATICA = [
     curiosidade: `A subtração é usada toda vez que você calcula troco em uma compra.`,
     resumo: `Subtrair é retirar uma quantidade de outra.`,
     perguntas: [
-      { texto: '20 - 8 =', opcoes: ['10', '12', '14', '16'], correta: 1 },
-      { texto: 'Você recebeu R$ 100,00 e gastou R$ 65,00. Quanto sobrou?', opcoes: ['R$ 30,00', 'R$ 35,00', 'R$ 40,00', 'R$ 45,00'], correta: 1 },
-      { texto: '50 - 20 =', opcoes: ['20', '25', '30', '35'], correta: 2 },
-      { texto: '45 - 15 =', opcoes: ['25', '30', '35', '40'], correta: 1 },
-      { texto: 'Mayara tinha R$ 60,00 e gastou R$ 25,00 com transporte. Quanto sobrou?', opcoes: ['R$ 30,00', 'R$ 35,00', 'R$ 40,00', 'R$ 45,00'], correta: 1 }
+      { texto: '20 - 8 =', opcoes: ['10', '12', '14', '16'], correta: 1, explicacao: '20 - 8 = 12.' },
+      { texto: 'Você recebeu R$ 100,00 e gastou R$ 65,00. Quanto sobrou?', opcoes: ['R$ 30,00', 'R$ 35,00', 'R$ 40,00', 'R$ 45,00'], correta: 1, explicacao: 'R$ 100,00 - R$ 65,00 = R$ 35,00.' },
+      { texto: '50 - 20 =', opcoes: ['20', '25', '30', '35'], correta: 2, explicacao: '50 - 20 = 30.' },
+      { texto: '45 - 15 =', opcoes: ['25', '30', '35', '40'], correta: 1, explicacao: '45 - 15 = 30.' },
+      { texto: 'Mayara tinha R$ 60,00 e gastou R$ 25,00 com transporte. Quanto sobrou?', opcoes: ['R$ 30,00', 'R$ 35,00', 'R$ 40,00', 'R$ 45,00'], correta: 1, explicacao: 'R$ 60,00 - R$ 25,00 = R$ 35,00.' }
     ],
     feedback: `Você acabou de aprender como funciona a subtração. Essa conta é usada toda vez que calculamos troco!`
   },
@@ -314,11 +314,11 @@ const MATEMATICA = [
     curiosidade: `A multiplicação é muito usada para calcular o total de produtos ou o preço de várias unidades de um item.`,
     resumo: `Multiplicar é somar a mesma quantidade várias vezes.`,
     perguntas: [
-      { texto: '6 × 5 =', opcoes: ['25', '30', '35', '40'], correta: 1 },
-      { texto: 'Você comprou 3 canetas de R$ 4,00 cada. Quanto gastou?', opcoes: ['R$ 10,00', 'R$ 12,00', 'R$ 14,00', 'R$ 16,00'], correta: 1 },
-      { texto: '7 × 3 =', opcoes: ['18', '21', '24', '27'], correta: 1 },
-      { texto: 'Uma caixa tem 5 produtos. Quantos produtos há em 4 caixas?', opcoes: ['15', '18', '20', '22'], correta: 2 },
-      { texto: '9 × 2 =', opcoes: ['16', '18', '20', '22'], correta: 1 }
+      { texto: '6 × 5 =', opcoes: ['25', '30', '35', '40'], correta: 1, explicacao: '6 × 5 = 30.' },
+      { texto: 'Você comprou 3 canetas de R$ 4,00 cada. Quanto gastou?', opcoes: ['R$ 10,00', 'R$ 12,00', 'R$ 14,00', 'R$ 16,00'], correta: 1, explicacao: '3 × R$ 4,00 = R$ 12,00.' },
+      { texto: '7 × 3 =', opcoes: ['18', '21', '24', '27'], correta: 1, explicacao: '7 × 3 = 21.' },
+      { texto: 'Uma caixa tem 5 produtos. Quantos produtos há em 4 caixas?', opcoes: ['15', '18', '20', '22'], correta: 2, explicacao: '5 × 4 = 20 produtos.' },
+      { texto: '9 × 2 =', opcoes: ['16', '18', '20', '22'], correta: 1, explicacao: '9 × 2 = 18.' }
     ],
     feedback: `Muito bem! A multiplicação vai te ajudar bastante a calcular quantidades no trabalho.`
   },
@@ -329,11 +329,11 @@ const MATEMATICA = [
     curiosidade: `A divisão é usada, por exemplo, quando dividimos uma conta entre amigos ou repartimos tarefas em uma equipe.`,
     resumo: `Dividir é repartir uma quantidade em partes iguais.`,
     perguntas: [
-      { texto: '20 ÷ 4 =', opcoes: ['4', '5', '6', '7'], correta: 1 },
-      { texto: 'Uma pizza com 8 pedaços foi dividida entre 4 pessoas. Quantos pedaços cada uma recebeu?', opcoes: ['1', '2', '3', '4'], correta: 1 },
-      { texto: '15 ÷ 3 =', opcoes: ['4', '5', '6', '7'], correta: 1 },
-      { texto: 'Uma equipe de 12 pessoas foi dividida em 3 grupos iguais. Quantas pessoas em cada grupo?', opcoes: ['3', '4', '5', '6'], correta: 1 },
-      { texto: '18 ÷ 2 =', opcoes: ['7', '8', '9', '10'], correta: 2 }
+      { texto: '20 ÷ 4 =', opcoes: ['4', '5', '6', '7'], correta: 1, explicacao: '20 ÷ 4 = 5.' },
+      { texto: 'Uma pizza com 8 pedaços foi dividida entre 4 pessoas. Quantos pedaços cada uma recebeu?', opcoes: ['1', '2', '3', '4'], correta: 1, explicacao: '8 ÷ 4 = 2 pedaços para cada pessoa.' },
+      { texto: '15 ÷ 3 =', opcoes: ['4', '5', '6', '7'], correta: 1, explicacao: '15 ÷ 3 = 5.' },
+      { texto: 'Uma equipe de 12 pessoas foi dividida em 3 grupos iguais. Quantas pessoas em cada grupo?', opcoes: ['3', '4', '5', '6'], correta: 1, explicacao: '12 ÷ 3 = 4 pessoas em cada grupo.' },
+      { texto: '18 ÷ 2 =', opcoes: ['7', '8', '9', '10'], correta: 2, explicacao: '18 ÷ 2 = 9.' }
     ],
     feedback: `Muito bem! A divisão é muito útil para repartir tarefas e valores de forma justa.`
   },
@@ -344,11 +344,11 @@ const MATEMATICA = [
     curiosidade: `Porcentagem aparece o tempo todo em promoções, contracheques e até em notícias.`,
     resumo: `Porcentagem é uma forma de calcular uma parte de um valor total.`,
     perguntas: [
-      { texto: 'Um produto de R$ 100,00 tem 10% de desconto. Qual o valor do desconto?', opcoes: ['R$ 5,00', 'R$ 10,00', 'R$ 15,00', 'R$ 20,00'], correta: 1 },
-      { texto: 'Uma camiseta de R$ 50,00 com 10% de desconto fica por quanto?', opcoes: ['R$ 40,00', 'R$ 45,00', 'R$ 48,00', 'R$ 49,00'], correta: 1 },
-      { texto: 'Um produto de R$ 200,00 tem 20% de desconto. Qual o valor final?', opcoes: ['R$ 150,00', 'R$ 160,00', 'R$ 170,00', 'R$ 180,00'], correta: 1 },
-      { texto: '50% de um valor representa...', opcoes: ['A quarta parte', 'A metade', 'O dobro', 'O total'], correta: 1 },
-      { texto: 'Um produto de R$ 80,00 tem 25% de desconto. Qual o valor do desconto?', opcoes: ['R$ 15,00', 'R$ 20,00', 'R$ 25,00', 'R$ 30,00'], correta: 1 }
+      { texto: 'Um produto de R$ 100,00 tem 10% de desconto. Qual o valor do desconto?', opcoes: ['R$ 5,00', 'R$ 10,00', 'R$ 15,00', 'R$ 20,00'], correta: 1, explicacao: '10% de R$ 100,00 é R$ 10,00 (100 ÷ 100 × 10 = 10).' },
+      { texto: 'Uma camiseta de R$ 50,00 com 10% de desconto fica por quanto?', opcoes: ['R$ 40,00', 'R$ 45,00', 'R$ 48,00', 'R$ 49,00'], correta: 1, explicacao: '10% de R$ 50,00 é R$ 5,00. R$ 50,00 - R$ 5,00 = R$ 45,00.' },
+      { texto: 'Um produto de R$ 200,00 tem 20% de desconto. Qual o valor final?', opcoes: ['R$ 150,00', 'R$ 160,00', 'R$ 170,00', 'R$ 180,00'], correta: 1, explicacao: '20% de R$ 200,00 é R$ 40,00 (200 ÷ 100 × 20 = 40). R$ 200,00 - R$ 40,00 = R$ 160,00.' },
+      { texto: '50% de um valor representa...', opcoes: ['A quarta parte', 'A metade', 'O dobro', 'O total'], correta: 1, explicacao: '50% é sempre a metade de qualquer valor.' },
+      { texto: 'Um produto de R$ 80,00 tem 25% de desconto. Qual o valor do desconto?', opcoes: ['R$ 15,00', 'R$ 20,00', 'R$ 25,00', 'R$ 30,00'], correta: 1, explicacao: '25% é um quarto do valor: R$ 80,00 ÷ 4 = R$ 20,00.' }
     ],
     feedback: `Muito bem! Porcentagem vai te ajudar bastante a entender descontos e promoções.`
   },
@@ -359,11 +359,11 @@ const MATEMATICA = [
     curiosidade: `Anotar seus gastos, mesmo os pequenos, ajuda muito a não gastar mais do que você recebe.`,
     resumo: `Organizar as finanças é saber quanto você recebe e quanto gasta em cada coisa.`,
     perguntas: [
-      { texto: 'Você recebeu R$ 900,00, gastou R$ 100,00, R$ 150,00 e R$ 200,00. Quanto sobrou?', opcoes: ['R$ 400,00', 'R$ 450,00', 'R$ 500,00', 'R$ 550,00'], correta: 1 },
-      { texto: 'Por que é importante anotar os gastos?', opcoes: ['Não é importante', 'Para saber para onde vai o dinheiro', 'Só para gastar mais', 'Para impressionar os outros'], correta: 1 },
-      { texto: 'Você recebeu R$ 500,00 e guardou 20% para emergências. Quanto guardou?', opcoes: ['R$ 50,00', 'R$ 100,00', 'R$ 150,00', 'R$ 200,00'], correta: 1 },
-      { texto: 'O que é mais recomendado fazer com o primeiro salário?', opcoes: ['Gastar tudo de uma vez', 'Planejar e guardar uma parte', 'Emprestar tudo', 'Ignorar o valor'], correta: 1 },
-      { texto: 'Se você ganha R$ 600,00 e gasta R$ 550,00, quanto sobra?', opcoes: ['R$ 30,00', 'R$ 40,00', 'R$ 50,00', 'R$ 60,00'], correta: 2 }
+      { texto: 'Você recebeu R$ 900,00, gastou R$ 100,00, R$ 150,00 e R$ 200,00. Quanto sobrou?', opcoes: ['R$ 400,00', 'R$ 450,00', 'R$ 500,00', 'R$ 550,00'], correta: 1, explicacao: '900 - 100 - 150 - 200 = 450.' },
+      { texto: 'Por que é importante anotar os gastos?', opcoes: ['Não é importante', 'Para saber para onde vai o dinheiro', 'Só para gastar mais', 'Para impressionar os outros'], correta: 1, explicacao: 'Anotar os gastos ajuda a entender para onde o dinheiro está indo.' },
+      { texto: 'Você recebeu R$ 500,00 e guardou 20% para emergências. Quanto guardou?', opcoes: ['R$ 50,00', 'R$ 100,00', 'R$ 150,00', 'R$ 200,00'], correta: 1, explicacao: '20% de R$ 500,00 é R$ 100,00 (500 ÷ 100 × 20 = 100).' },
+      { texto: 'O que é mais recomendado fazer com o primeiro salário?', opcoes: ['Gastar tudo de uma vez', 'Planejar e guardar uma parte', 'Emprestar tudo', 'Ignorar o valor'], correta: 1, explicacao: 'O ideal é planejar os gastos e guardar uma parte do que se recebe.' },
+      { texto: 'Se você ganha R$ 600,00 e gasta R$ 550,00, quanto sobra?', opcoes: ['R$ 30,00', 'R$ 40,00', 'R$ 50,00', 'R$ 60,00'], correta: 2, explicacao: '600 - 550 = 50.' }
     ],
     feedback: `Muito bem! Organizar as finanças desde o primeiro emprego faz toda diferença no futuro.`
   },
@@ -374,11 +374,11 @@ const MATEMATICA = [
     curiosidade: `Saber calcular troco rapidamente é uma habilidade muito valorizada em vagas de atendimento e vendas.`,
     resumo: `A matemática do dia a dia envolve troco, parcelas e cálculos simples de compras.`,
     perguntas: [
-      { texto: 'Você comprou algo de R$ 23,00 e pagou com R$ 50,00. Qual o troco?', opcoes: ['R$ 25,00', 'R$ 27,00', 'R$ 30,00', 'R$ 33,00'], correta: 1 },
-      { texto: 'Um produto de R$ 120,00 foi dividido em 3 parcelas iguais. Qual o valor de cada parcela?', opcoes: ['R$ 30,00', 'R$ 40,00', 'R$ 50,00', 'R$ 60,00'], correta: 1 },
-      { texto: 'Você comprou 2 produtos de R$ 15,00 cada. Quanto gastou no total?', opcoes: ['R$ 25,00', 'R$ 30,00', 'R$ 35,00', 'R$ 40,00'], correta: 1 },
-      { texto: 'Pagou uma compra de R$ 18,00 com uma nota de R$ 20,00. Qual o troco?', opcoes: ['R$ 1,00', 'R$ 2,00', 'R$ 3,00', 'R$ 4,00'], correta: 1 },
-      { texto: 'Um produto de R$ 90,00 foi parcelado em 3 vezes. Qual o valor de cada parcela?', opcoes: ['R$ 25,00', 'R$ 30,00', 'R$ 35,00', 'R$ 40,00'], correta: 1 }
+      { texto: 'Você comprou algo de R$ 23,00 e pagou com R$ 50,00. Qual o troco?', opcoes: ['R$ 25,00', 'R$ 27,00', 'R$ 30,00', 'R$ 33,00'], correta: 1, explicacao: 'R$ 50,00 - R$ 23,00 = R$ 27,00.' },
+      { texto: 'Um produto de R$ 120,00 foi dividido em 3 parcelas iguais. Qual o valor de cada parcela?', opcoes: ['R$ 30,00', 'R$ 40,00', 'R$ 50,00', 'R$ 60,00'], correta: 1, explicacao: 'R$ 120,00 ÷ 3 = R$ 40,00.' },
+      { texto: 'Você comprou 2 produtos de R$ 15,00 cada. Quanto gastou no total?', opcoes: ['R$ 25,00', 'R$ 30,00', 'R$ 35,00', 'R$ 40,00'], correta: 1, explicacao: '2 × R$ 15,00 = R$ 30,00.' },
+      { texto: 'Pagou uma compra de R$ 18,00 com uma nota de R$ 20,00. Qual o troco?', opcoes: ['R$ 1,00', 'R$ 2,00', 'R$ 3,00', 'R$ 4,00'], correta: 1, explicacao: 'R$ 20,00 - R$ 18,00 = R$ 2,00.' },
+      { texto: 'Um produto de R$ 90,00 foi parcelado em 3 vezes. Qual o valor de cada parcela?', opcoes: ['R$ 25,00', 'R$ 30,00', 'R$ 35,00', 'R$ 40,00'], correta: 1, explicacao: 'R$ 90,00 ÷ 3 = R$ 30,00.' }
     ],
     feedback: `Muito bem! Esses cálculos do dia a dia vão te ajudar em vários momentos, dentro e fora do trabalho.`
   },
@@ -389,11 +389,11 @@ const MATEMATICA = [
     curiosidade: `Muitas vagas de Jovem Aprendiz envolvem conferência de estoque e organização de materiais, por isso essa habilidade é bem valorizada.`,
     resumo: `No trabalho, usamos a matemática para contar produtos, organizar estoque e materiais.`,
     perguntas: [
-      { texto: 'Uma loja tinha 150 produtos e vendeu 45. Quantos restaram?', opcoes: ['95', '100', '105', '110'], correta: 2 },
-      { texto: 'Chegaram 30 novas caixas de material. Já havia 20 no estoque. Quantas caixas há agora?', opcoes: ['40', '45', '50', '55'], correta: 2 },
-      { texto: 'Um escritório atendeu 8 clientes pela manhã e 6 à tarde. Quantos clientes no total?', opcoes: ['12', '13', '14', '15'], correta: 2 },
-      { texto: 'Um estoque tinha 200 itens. Foram usados 75. Quantos restaram?', opcoes: ['115', '120', '125', '130'], correta: 2 },
-      { texto: 'Você organizou 4 caixas com 10 documentos cada. Quantos documentos no total?', opcoes: ['30', '35', '40', '45'], correta: 2 }
+      { texto: 'Uma loja tinha 150 produtos e vendeu 45. Quantos restaram?', opcoes: ['95', '100', '105', '110'], correta: 2, explicacao: '150 - 45 = 105 produtos.' },
+      { texto: 'Chegaram 30 novas caixas de material. Já havia 20 no estoque. Quantas caixas há agora?', opcoes: ['40', '45', '50', '55'], correta: 2, explicacao: '20 + 30 = 50 caixas.' },
+      { texto: 'Um escritório atendeu 8 clientes pela manhã e 6 à tarde. Quantos clientes no total?', opcoes: ['12', '13', '14', '15'], correta: 2, explicacao: '8 + 6 = 14 clientes.' },
+      { texto: 'Um estoque tinha 200 itens. Foram usados 75. Quantos restaram?', opcoes: ['115', '120', '125', '130'], correta: 2, explicacao: '200 - 75 = 125 itens.' },
+      { texto: 'Você organizou 4 caixas com 10 documentos cada. Quantos documentos no total?', opcoes: ['30', '35', '40', '45'], correta: 2, explicacao: '4 × 10 = 40 documentos.' }
     ],
     feedback: `Muito bem! Você já está mais preparada para lidar com números no seu primeiro emprego.`
   }
@@ -408,11 +408,11 @@ const REDACAO_TEMAS = [
     curiosidade: `Mesmo quando a empresa não pede uma redação, saber organizar suas ideias ajuda muito durante a entrevista. Quando você responde de forma organizada, transmite mais confiança.`,
     resumo: `Toda redação precisa ter: Introdução, Desenvolvimento e Conclusão.`,
     perguntas: [
-      { texto: 'Qual parte apresenta o assunto?', opcoes: ['Introdução', 'Desenvolvimento', 'Conclusão'], correta: 0 },
-      { texto: 'Qual parte explica melhor a ideia?', opcoes: ['Introdução', 'Desenvolvimento', 'Conclusão'], correta: 1 },
-      { texto: 'Qual parte encerra o texto?', opcoes: ['Desenvolvimento', 'Introdução', 'Conclusão'], correta: 2 },
-      { texto: 'Uma redação organizada precisa ter...', opcoes: ['Apenas um parágrafo.', 'Começo, meio e fim.', 'Muitas palavras difíceis.'], correta: 1 },
-      { texto: 'O mais importante em uma redação é...', opcoes: ['Escrever difícil.', 'Organizar as ideias.', 'Escrever muitas páginas.'], correta: 1 }
+      { texto: 'Qual parte apresenta o assunto?', opcoes: ['Introdução', 'Desenvolvimento', 'Conclusão'], correta: 0, explicacao: 'A Introdução é a parte que apresenta o assunto do texto.' },
+      { texto: 'Qual parte explica melhor a ideia?', opcoes: ['Introdução', 'Desenvolvimento', 'Conclusão'], correta: 1, explicacao: 'O Desenvolvimento é onde a ideia é explicada com mais detalhes.' },
+      { texto: 'Qual parte encerra o texto?', opcoes: ['Desenvolvimento', 'Introdução', 'Conclusão'], correta: 2, explicacao: 'A Conclusão é a parte que encerra o texto.' },
+      { texto: 'Uma redação organizada precisa ter...', opcoes: ['Apenas um parágrafo.', 'Começo, meio e fim.', 'Muitas palavras difíceis.'], correta: 1, explicacao: 'Toda redação organizada tem começo, meio e fim.' },
+      { texto: 'O mais importante em uma redação é...', opcoes: ['Escrever difícil.', 'Organizar as ideias.', 'Escrever muitas páginas.'], correta: 1, explicacao: 'O mais importante é organizar bem as ideias, não usar palavras difíceis.' }
     ],
     feedback: `Escrever bem começa organizando as ideias. Você está indo muito bem!`
   },
@@ -423,11 +423,11 @@ const REDACAO_TEMAS = [
     curiosidade: `Frases completas deixam sua comunicação escrita muito mais clara, seja em um e-mail ou em uma redação.`,
     resumo: `Uma boa frase tem sentido completo, com sujeito e ação claros.`,
     perguntas: [
-      { texto: 'Qual destas é uma frase completa?', opcoes: ['Muito cansada.', 'Cheguei muito cansada depois do trabalho.', 'Cansada hoje.', 'Bem cansada.'], correta: 1 },
-      { texto: 'O que uma frase precisa ter para fazer sentido completo?', opcoes: ['Só palavras difíceis', 'Uma ideia completa', 'Muitas vírgulas', 'Ser bem curta'], correta: 1 },
-      { texto: 'Qual frase está mais completa?', opcoes: ['Gostei muito.', 'Gostei muito da oportunidade de participar do processo.', 'Muito bom.', 'Gostei.'], correta: 1 },
-      { texto: 'Qual opção completa melhor a frase: "Estou animada..."?', opcoes: ['Fim.', '...para começar esse novo desafio.', '.', ' '], correta: 1 },
-      { texto: 'Por que é importante escrever frases completas?', opcoes: ['Para parecer inteligente', 'Para transmitir a ideia com clareza', 'Porque é obrigatório', 'Não é importante'], correta: 1 }
+      { texto: 'Qual destas é uma frase completa?', opcoes: ['Muito cansada.', 'Cheguei muito cansada depois do trabalho.', 'Cansada hoje.', 'Bem cansada.'], correta: 1, explicacao: 'Essa é a única opção que transmite uma ideia completa, com contexto.' },
+      { texto: 'O que uma frase precisa ter para fazer sentido completo?', opcoes: ['Só palavras difíceis', 'Uma ideia completa', 'Muitas vírgulas', 'Ser bem curta'], correta: 1, explicacao: 'Uma frase precisa transmitir uma ideia completa para fazer sentido sozinha.' },
+      { texto: 'Qual frase está mais completa?', opcoes: ['Gostei muito.', 'Gostei muito da oportunidade de participar do processo.', 'Muito bom.', 'Gostei.'], correta: 1, explicacao: 'Essa frase explica o que foi gostado, ficando mais completa.' },
+      { texto: 'Qual opção completa melhor a frase: "Estou animada..."?', opcoes: ['Fim.', '...para começar esse novo desafio.', '.', ' '], correta: 1, explicacao: 'Essa opção completa a ideia, explicando o motivo da animação.' },
+      { texto: 'Por que é importante escrever frases completas?', opcoes: ['Para parecer inteligente', 'Para transmitir a ideia com clareza', 'Porque é obrigatório', 'Não é importante'], correta: 1, explicacao: 'Frases completas transmitem a ideia com mais clareza para quem lê.' }
     ],
     feedback: `Muito bem! Frases completas deixam sua escrita muito mais clara.`
   },
@@ -438,11 +438,11 @@ const REDACAO_TEMAS = [
     curiosidade: `Usar conectivos deixa seu texto mais fluido, como se as ideias estivessem "de mãos dadas".`,
     resumo: `Conectivos ligam ideias e deixam o texto mais organizado.`,
     perguntas: [
-      { texto: 'Qual palavra indica uma explicação ou motivo?', opcoes: ['Porém', 'Porque', 'Também', 'Então'], correta: 1 },
-      { texto: 'Qual palavra indica uma ideia contrária?', opcoes: ['Além disso', 'Porque', 'Porém', 'Também'], correta: 2 },
-      { texto: 'Qual palavra soma uma nova informação?', opcoes: ['Além disso', 'Porém', 'Então', 'Por isso'], correta: 0 },
-      { texto: 'Complete: "Estudei bastante, __ passei na prova."', opcoes: ['porém', 'por isso', 'também', 'porque'], correta: 1 },
-      { texto: 'Complete: "Gosto de Matemática. __, gosto de Português."', opcoes: ['Porém', 'Além disso', 'Então', 'Porque'], correta: 1 }
+      { texto: 'Qual palavra indica uma explicação ou motivo?', opcoes: ['Porém', 'Porque', 'Também', 'Então'], correta: 1, explicacao: '"Porque" indica uma explicação ou motivo.' },
+      { texto: 'Qual palavra indica uma ideia contrária?', opcoes: ['Além disso', 'Porque', 'Porém', 'Também'], correta: 2, explicacao: '"Porém" indica uma ideia contrária à anterior.' },
+      { texto: 'Qual palavra soma uma nova informação?', opcoes: ['Além disso', 'Porém', 'Então', 'Por isso'], correta: 0, explicacao: '"Além disso" soma uma nova informação à ideia anterior.' },
+      { texto: 'Complete: "Estudei bastante, __ passei na prova."', opcoes: ['porém', 'por isso', 'também', 'porque'], correta: 1, explicacao: '"Por isso" liga uma causa (estudar) a uma consequência (passar).' },
+      { texto: 'Complete: "Gosto de Matemática. __, gosto de Português."', opcoes: ['Porém', 'Além disso', 'Então', 'Porque'], correta: 1, explicacao: '"Além disso" soma uma nova ideia relacionada.' }
     ],
     feedback: `Muito bem! Esses conectivos vão deixar seus textos muito mais organizados.`
   },
@@ -453,11 +453,11 @@ const REDACAO_TEMAS = [
     curiosidade: `Textos desorganizados são mais difíceis de entender, mesmo quando têm boas ideias.`,
     resumo: `A ordem das ideias é tão importante quanto as próprias ideias.`,
     perguntas: [
-      { texto: 'O que deve vir primeiro em um texto organizado?', opcoes: ['A conclusão', 'A apresentação do assunto', 'Um exemplo qualquer', 'Nada em especial'], correta: 1 },
-      { texto: 'Qual destas sequências está mais organizada?', opcoes: ['Conclusão, assunto, detalhes', 'Assunto, detalhes, conclusão', 'Detalhes, conclusão, assunto', 'Não importa a ordem'], correta: 1 },
-      { texto: 'Por que a ordem das ideias é importante?', opcoes: ['Não é importante', 'Ajuda o leitor a entender melhor', 'Só deixa o texto maior', 'É só uma regra sem motivo'], correta: 1 },
-      { texto: 'O que geralmente vem no final de um texto?', opcoes: ['A apresentação do assunto', 'A conclusão', 'Um novo assunto', 'Nada'], correta: 1 },
-      { texto: 'Se as frases de um texto estão embaralhadas, o que acontece?', opcoes: ['O texto fica mais claro', 'O texto fica confuso', 'Não faz diferença', 'O texto fica mais bonito'], correta: 1 }
+      { texto: 'O que deve vir primeiro em um texto organizado?', opcoes: ['A conclusão', 'A apresentação do assunto', 'Um exemplo qualquer', 'Nada em especial'], correta: 1, explicacao: 'Um texto organizado começa apresentando o assunto.' },
+      { texto: 'Qual destas sequências está mais organizada?', opcoes: ['Conclusão, assunto, detalhes', 'Assunto, detalhes, conclusão', 'Detalhes, conclusão, assunto', 'Não importa a ordem'], correta: 1, explicacao: 'A ordem assunto → detalhes → conclusão deixa o texto mais claro.' },
+      { texto: 'Por que a ordem das ideias é importante?', opcoes: ['Não é importante', 'Ajuda o leitor a entender melhor', 'Só deixa o texto maior', 'É só uma regra sem motivo'], correta: 1, explicacao: 'A ordem das ideias ajuda o leitor a entender melhor o texto.' },
+      { texto: 'O que geralmente vem no final de um texto?', opcoes: ['A apresentação do assunto', 'A conclusão', 'Um novo assunto', 'Nada'], correta: 1, explicacao: 'A conclusão geralmente vem no final do texto.' },
+      { texto: 'Se as frases de um texto estão embaralhadas, o que acontece?', opcoes: ['O texto fica mais claro', 'O texto fica confuso', 'Não faz diferença', 'O texto fica mais bonito'], correta: 1, explicacao: 'Frases fora de ordem deixam o texto confuso e difícil de entender.' }
     ],
     feedback: `Muito bem! Organizar as ideias na ordem certa faz toda a diferença em um texto.`
   },
@@ -513,11 +513,11 @@ const REDACAO_TEMAS = [
     curiosidade: `Enviar um e-mail de agradecimento depois de uma entrevista é uma atitude muito bem vista pelos recrutadores.`,
     resumo: `Um bom e-mail tem saudação, assunto, corpo, agradecimento e despedida.`,
     perguntas: [
-      { texto: 'O que deve aparecer no campo "Assunto" do e-mail?', opcoes: ['Nada', 'Um resumo do motivo do e-mail', 'Só o nome da empresa', 'Emojis'], correta: 1 },
-      { texto: 'Qual é uma boa prática após uma entrevista?', opcoes: ['Não enviar nada', 'Enviar um e-mail de agradecimento', 'Ligar toda hora', 'Esquecer o assunto'], correta: 1 },
-      { texto: 'Qual destas frases é uma despedida adequada?', opcoes: ['flw', 'Atenciosamente,', 'tchau', 'até mais tarde'], correta: 1 },
-      { texto: 'O que deve vir no corpo do e-mail?', opcoes: ['O motivo do contato, de forma clara', 'Só uma saudação', 'Nada, só a despedida', 'Piadas'], correta: 0 },
-      { texto: 'Por que é importante revisar o e-mail antes de enviar?', opcoes: ['Não é importante', 'Para evitar erros de escrita e garantir clareza', 'Só para deixar mais longo', 'Porque é obrigatório'], correta: 1 }
+      { texto: 'O que deve aparecer no campo "Assunto" do e-mail?', opcoes: ['Nada', 'Um resumo do motivo do e-mail', 'Só o nome da empresa', 'Emojis'], correta: 1, explicacao: 'O assunto deve resumir, em poucas palavras, o motivo do e-mail.' },
+      { texto: 'Qual é uma boa prática após uma entrevista?', opcoes: ['Não enviar nada', 'Enviar um e-mail de agradecimento', 'Ligar toda hora', 'Esquecer o assunto'], correta: 1, explicacao: 'Enviar um e-mail de agradecimento após a entrevista é muito bem visto.' },
+      { texto: 'Qual destas frases é uma despedida adequada?', opcoes: ['flw', 'Atenciosamente,', 'tchau', 'até mais tarde'], correta: 1, explicacao: '"Atenciosamente," é uma despedida profissional adequada.' },
+      { texto: 'O que deve vir no corpo do e-mail?', opcoes: ['O motivo do contato, de forma clara', 'Só uma saudação', 'Nada, só a despedida', 'Piadas'], correta: 0, explicacao: 'O corpo do e-mail deve explicar o motivo do contato com clareza.' },
+      { texto: 'Por que é importante revisar o e-mail antes de enviar?', opcoes: ['Não é importante', 'Para evitar erros de escrita e garantir clareza', 'Só para deixar mais longo', 'Porque é obrigatório'], correta: 1, explicacao: 'Revisar evita erros de escrita e garante que a mensagem ficou clara.' }
     ],
     feedback: `Muito bem! Agora você está ainda mais preparada para se comunicar por e-mail no ambiente profissional.`
   },
