@@ -1,0 +1,338 @@
+/* ==========================================================================
+   Minha Primeira Oportunidade — Design System (Volume 10)
+   Fonte da verdade: Volume 10 — Guia Oficial de Design, UX e Identidade Visual
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap');
+
+:root {
+  /* Paleta oficial — Volume 10 */
+  --bg-principal: #FFF8FB;
+  --bg-secundario: #FDF2F8;
+  --cards: #FFFFFF;
+  --rosa-principal: #F8AFCB;
+  --rosa-claro: #FCE4EC;
+  --rosa-escuro: #EC6FA9;
+  --lilas-suave: #F6F0FF;
+  --verde-sucesso: #CDEFD8;
+  --vermelho-erro: #FFE6E6;
+  --texto-principal: #444444;
+  --texto-secundario: #777777;
+  --branco: #FFFFFF;
+
+  /* Tipografia */
+  --fonte-principal: 'Poppins', 'Nunito', 'Inter', sans-serif;
+  --tam-titulo: 30px;
+  --tam-subtitulo: 22px;
+  --tam-texto: 17px;
+  --tam-legenda: 14px;
+
+  /* Componentes */
+  --raio-botao: 24px;
+  --altura-botao: 56px;
+  --raio-card: 20px;
+  --espaco-componentes: 20px;
+  --espaco-mensagens: 12px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-principal);
+  color: var(--texto-principal);
+  font-family: var(--fonte-principal);
+  font-size: var(--tam-texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg-principal);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Nunca azul. Nunca cantos quadrados. */
+h1, h2, h3, p, button, input, textarea { font-family: var(--fonte-principal); }
+
+h1 { font-size: var(--tam-titulo); font-weight: 700; margin: 0 0 8px; }
+h2 { font-size: var(--tam-subtitulo); font-weight: 600; margin: 0 0 8px; }
+.legenda { font-size: var(--tam-legenda); color: var(--texto-secundario); }
+
+/* ---------- Layout de tela ---------- */
+.tela {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--espaco-componentes);
+  gap: var(--espaco-componentes);
+  animation: fadeSlideIn 250ms ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tela, .msg, .btn { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  height: var(--altura-botao);
+  width: 100%;
+  border-radius: var(--raio-botao);
+  border: none;
+  background: var(--rosa-principal);
+  color: var(--branco);
+  font-size: var(--tam-texto);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible { outline: 3px solid var(--rosa-escuro); outline-offset: 2px; }
+.btn.secundario {
+  background: var(--branco);
+  color: var(--rosa-escuro);
+  border: 2px solid var(--rosa-principal);
+}
+.btn.pequeno { height: 44px; font-size: var(--tam-legenda); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--cards);
+  border-radius: var(--raio-card);
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(238, 111, 169, 0.08);
+}
+
+/* ---------- Telas do onboarding (Volume 2) ---------- */
+.tela-onboarding-destaque {
+  background: var(--rosa-escuro);
+}
+.tela-onboarding-destaque .msg.sah {
+  background: var(--branco);
+  color: var(--texto-principal);
+}
+.tela-onboarding-destaque .barra-progresso {
+  background: rgba(255,255,255,0.35);
+}
+.tela-onboarding-destaque .barra-progresso > div {
+  background: var(--branco);
+}
+.tela-onboarding-destaque .btn {
+  background: var(--branco);
+  color: var(--rosa-escuro);
+}
+
+.tela-onboarding {
+  background: var(--rosa-claro);
+}
+
+/* ---------- Conversa (estilo mensagens) ---------- */
+.conversa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-mensagens);
+  flex: 1;
+}
+.msg {
+  max-width: 85%;
+  padding: 14px 16px;
+  border-radius: var(--raio-card);
+  animation: fadeSlideIn 250ms ease-out;
+  line-height: 1.5;
+}
+.msg.sah {
+  align-self: flex-start;
+  background: var(--branco);
+  border-bottom-left-radius: 6px;
+}
+.msg.sah .nome {
+  font-weight: 700;
+  color: var(--rosa-escuro);
+  font-size: var(--tam-legenda);
+  margin-bottom: 4px;
+  display: block;
+}
+.msg.mayara {
+  align-self: flex-end;
+  background: var(--rosa-claro);
+  border-bottom-right-radius: 6px;
+}
+
+.nome-conversa {
+  font-weight: 700;
+  color: var(--rosa-escuro);
+  font-size: var(--tam-legenda);
+  margin-bottom: -4px;
+}
+.tela-onboarding-destaque .nome-conversa {
+  color: var(--branco);
+}
+
+/* ---------- Voltar no onboarding ---------- */
+.voltar-onboarding {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--rosa-escuro);
+  align-self: flex-start;
+  padding: 0;
+}
+.tela-onboarding-destaque .voltar-onboarding {
+  color: var(--branco);
+}
+
+/* ---------- Efeito de digitando ---------- */
+.msg.digitando {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  width: 52px;
+  padding: 16px;
+}
+.msg.digitando .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--texto-secundario);
+  opacity: 0.4;
+  animation: piscarPontinho 1s infinite ease-in-out;
+}
+.msg.digitando .dot:nth-child(2) { animation-delay: 0.2s; }
+.msg.digitando .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes piscarPontinho {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Card de tema com botão de favoritar ---------- */
+.card-tema {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.card-tema > div:first-child { flex: 1; }
+.btn-favorito {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ---------- Avatar ---------- */
+.avatar-sah {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--lilas-suave);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.avatar-mayara {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--rosa-principal);
+  color: var(--branco); font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---------- Barra de progresso ---------- */
+.barra-progresso {
+  width: 100%;
+  height: 10px;
+  background: var(--rosa-claro);
+  border-radius: 24px;
+  overflow: hidden;
+}
+.barra-progresso > div {
+  height: 100%;
+  background: var(--rosa-principal);
+  transition: width 400ms ease;
+}
+
+/* ---------- Opções de resposta ---------- */
+.opcoes { display: flex; flex-direction: column; gap: 10px; }
+.opcao {
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: var(--raio-card);
+  border: 2px solid var(--rosa-claro);
+  background: var(--branco);
+  font-size: var(--tam-texto);
+  cursor: pointer;
+  transition: transform 150ms ease, background 150ms ease;
+}
+.opcao:hover { background: var(--bg-secundario); }
+.opcao:active { transform: scale(0.98); }
+.opcao.correta { background: var(--verde-sucesso); border-color: var(--verde-sucesso); }
+.opcao.errada { background: var(--vermelho-erro); border-color: var(--vermelho-erro); }
+.opcao:disabled { cursor: default; }
+
+/* ---------- Dashboard / Menu ---------- */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.menu-item {
+  background: var(--branco);
+  border-radius: var(--raio-card);
+  padding: 18px 8px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  font-family: var(--fonte-principal);
+  color: var(--texto-principal);
+}
+.menu-item .icone { font-size: 26px; display: block; margin-bottom: 6px; }
+.menu-item span.rotulo { font-size: 13px; }
+
+/* ---------- Topbar ---------- */
+.topbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 20px;
+  background: var(--bg-secundario);
+}
+.topbar .voltar {
+  background: none; border: none; font-size: 20px; cursor: pointer; color: var(--rosa-escuro);
+}
+
+/* ---------- Conquistas ---------- */
+.conquista {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px; border-radius: var(--raio-card);
+  background: var(--branco);
+}
+.conquista.bloqueada { opacity: 0.4; }
+
+/* ---------- Utilidades ---------- */
+.texto-secundario { color: var(--texto-secundario); }
+.centro { text-align: center; }
+.aviso-pendente {
+  background: var(--lilas-suave);
+  border-radius: var(--raio-card);
+  padding: 14px;
+  font-size: var(--tam-legenda);
+  color: var(--texto-secundario);
+}
+input[type=text], textarea {
+  width: 100%;
+  border: 2px solid var(--rosa-claro);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-family: var(--fonte-principal);
+  font-size: var(--tam-texto);
+  background: var(--branco);
+  color: var(--texto-principal);
+}
+input[type=text]:focus, textarea:focus { outline: 2px solid var(--rosa-principal); border-color: var(--rosa-principal); }

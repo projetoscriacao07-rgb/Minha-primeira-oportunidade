@@ -12,6 +12,9 @@ function estadoPadrao() {
     nome: 'Mayara',
     onboardingConcluido: false,
     onboardingPasso: 0,
+    questionarioIndice: 0,
+    questionarioRespostas: [],
+    perfilComportamental: null,
     iniciouEm: null,
     ultimoAcesso: null,
     diasSeguidos: 0,
@@ -24,8 +27,7 @@ function estadoPadrao() {
     entrevistas: [],
     caderno: [],
     favoritos: [],
-    conquistas: [],
-    perfilComportamental: null
+    conquistas: []
   };
 }
 
@@ -136,6 +138,14 @@ function renderizar() {
   return telaDashboard();
 }
 
+/* Mapa de módulo -> array de temas, usado por várias telas genéricas */
+function arrayDoModulo(modulo) {
+  if (modulo === 'portugues') return PORTUGUES;
+  if (modulo === 'matematica') return MATEMATICA;
+  if (modulo === 'redacao') return REDACAO_TEMAS;
+  return [];
+}
+
 /* ---------------------- Componentes utilitários ---------------------- */
 function topbar(titulo, voltarPara) {
   return `
@@ -162,41 +172,68 @@ function telaOnboarding() {
   }
 
   if (item.tipo === 'questionario') {
-    app().innerHTML = `
-      <div class="tela">
-        <span class="avatar-sah">👩🏻‍💼</span>
-        <div class="msg sah"><span class="nome">Sah</span>${QUESTIONARIO_COMPORTAMENTAL.aviso}</div>
-        <div class="aviso-pendente">Enquanto isso, você pode seguir para a próxima etapa da conversa. Essa etapa será liberada quando o conteúdo oficial for enviado.</div>
-        <button class="btn" onclick="avancarOnboarding()">Continuar</button>
-      </div>`;
-    return;
+    return telaQuestionarioComportamental();
   }
 
   const telaClasse = item.destaque ? 'tela tela-onboarding-destaque' : 'tela tela-onboarding';
+  const botaoVoltar = passo > 0 ? `<button class="voltar-onboarding" onclick="voltarOnboarding()" aria-label="Voltar">←</button>` : '';
 
   if (item.mensagens) {
     app().innerHTML = `
       <div class="${telaClasse}">
+        ${botaoVoltar}
         ${barraProgresso(Math.round((passo / ONBOARDING.length) * 100))}
         <span class="avatar-sah">👩🏻‍💼</span>
         <div class="conversa">
           <span class="nome-conversa">Sah</span>
-          ${item.mensagens.map(m => `<div class="msg sah">${m.negrito ? `<strong>${m.texto}</strong>` : m.texto}</div>`).join('')}
+          <div id="conversaContainer"></div>
         </div>
         <div style="flex:1"></div>
-        <button class="btn" onclick="avancarOnboarding()">${item.botao} ✨</button>
+        <button class="btn" id="btnContinuarOnboarding" style="display:none" onclick="avancarOnboarding()">${item.botao} ✨</button>
       </div>`;
+    const container = document.getElementById('conversaContainer');
+    animarConversa(item.mensagens, container, () => {
+      const btn = document.getElementById('btnContinuarOnboarding');
+      if (btn) btn.style.display = 'block';
+    });
     return;
   }
 
   app().innerHTML = `
     <div class="${telaClasse}">
+      ${botaoVoltar}
       ${barraProgresso(Math.round((passo / ONBOARDING.length) * 100))}
       <span class="avatar-sah">👩🏻‍💼</span>
       <div class="msg sah"><span class="nome">Sah</span>${item.texto.replace(/\n/g, '<br>')}</div>
       <div style="flex:1"></div>
       <button class="btn" onclick="avancarOnboarding()">${item.botao} ✨</button>
     </div>`;
+}
+
+/* Efeito de "digitando..." antes de cada balão de mensagem aparecer */
+function animarConversa(mensagens, container, aoFinalizar) {
+  let i = 0;
+  function proxima() {
+    if (i >= mensagens.length) {
+      if (aoFinalizar) aoFinalizar();
+      return;
+    }
+    const indicador = document.createElement('div');
+    indicador.className = 'msg sah digitando';
+    indicador.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+    container.appendChild(indicador);
+    setTimeout(() => {
+      indicador.remove();
+      const m = mensagens[i];
+      const bolha = document.createElement('div');
+      bolha.className = 'msg sah';
+      bolha.innerHTML = m.negrito ? `<strong>${m.texto}</strong>` : m.texto;
+      container.appendChild(bolha);
+      i++;
+      setTimeout(proxima, 700);
+    }, 650);
+  }
+  proxima();
 }
 
 function avancarOnboarding() {
@@ -209,6 +246,91 @@ function avancarOnboarding() {
   } else {
     renderizar();
   }
+}
+
+function voltarOnboarding() {
+  if (ESTADO.onboardingPasso > 0) {
+    ESTADO.onboardingPasso -= 1;
+    salvar();
+    renderizar();
+  }
+}
+
+/* ---------------------- Questionário comportamental (Volume 2) ----------------------
+   Nunca chamado de "DISC" para a Mayara. O resultado é calculado e guardado
+   apenas para o painel da Sah (#/admin) — a Mayara nunca vê essas informações. */
+function telaQuestionarioComportamental() {
+  const idx = ESTADO.questionarioIndice || 0;
+
+  if (idx >= QUESTIONARIO_COMPORTAMENTAL.length) {
+    if (!ESTADO.perfilComportamental) calcularPerfilComportamental();
+    app().innerHTML = `
+      <div class="tela tela-onboarding">
+        <span class="avatar-sah">👩🏻‍💼</span>
+        <div class="msg sah"><span class="nome">Sah</span>Obrigada! Agora já conheço um pouquinho mais sobre você. Isso vai me ajudar a adaptar toda a sua preparação. 💗</div>
+        <div style="flex:1"></div>
+        <button class="btn" onclick="avancarOnboarding()">Continuar ✨</button>
+      </div>`;
+    return;
+  }
+
+  const pergunta = QUESTIONARIO_COMPORTAMENTAL[idx];
+  const botaoVoltar = idx > 0
+    ? `<button class="voltar-onboarding" onclick="voltarQuestionario()" aria-label="Voltar">←</button>`
+    : `<button class="voltar-onboarding" onclick="voltarOnboarding()" aria-label="Voltar">←</button>`;
+
+  app().innerHTML = `
+    <div class="tela tela-onboarding">
+      ${botaoVoltar}
+      ${barraProgresso(Math.round((idx / QUESTIONARIO_COMPORTAMENTAL.length) * 100))}
+      <p class="legenda">Pergunta ${idx + 1} de ${QUESTIONARIO_COMPORTAMENTAL.length}</p>
+      <h2>${pergunta.texto}</h2>
+      <div class="opcoes">
+        ${pergunta.opcoes.map((op, i) => `<button class="opcao" onclick="responderQuestionario(${i})">${op}</button>`).join('')}
+      </div>
+    </div>`;
+}
+
+function responderQuestionario(indiceOpcao) {
+  const idx = ESTADO.questionarioIndice || 0;
+  ESTADO.questionarioRespostas[idx] = indiceOpcao;
+  ESTADO.questionarioIndice = idx + 1;
+  salvar();
+  renderizar();
+}
+
+function voltarQuestionario() {
+  if ((ESTADO.questionarioIndice || 0) > 0) {
+    ESTADO.questionarioIndice -= 1;
+    salvar();
+    renderizar();
+  }
+}
+
+function calcularPerfilComportamental() {
+  const chaves = ['dominancia', 'influencia', 'estabilidade', 'conformidade'];
+  const contagens = { dominancia: 0, influencia: 0, estabilidade: 0, conformidade: 0 };
+  (ESTADO.questionarioRespostas || []).forEach(i => {
+    const chave = chaves[i];
+    if (chave) contagens[chave] += 1;
+  });
+  const total = (ESTADO.questionarioRespostas || []).filter(v => v !== undefined && v !== null).length || 1;
+  const percentuais = {};
+  chaves.forEach(c => { percentuais[c] = Math.round((contagens[c] / total) * 100); });
+  const ordenado = [...chaves].sort((a, b) => contagens[b] - contagens[a]);
+  const DESCRICOES = {
+    dominancia: 'demonstra decisão e gosta de resolver desafios rapidamente',
+    influencia: 'demonstra facilidade para se comunicar e se relacionar com outras pessoas',
+    estabilidade: 'demonstra paciência e prefere agir com calma e consistência',
+    conformidade: 'demonstra organização e atenção aos detalhes'
+  };
+  const dominante = ordenado[0];
+  const secundario = ordenado[1];
+  ESTADO.perfilComportamental = {
+    contagens, percentuais, dominante, secundario,
+    resumo: `A Mayara ${DESCRICOES[dominante]}. Também apresenta traços de perfil que ${DESCRICOES[secundario]}.`
+  };
+  salvar();
 }
 
 /* ---------------------- Dashboard (Volume 1 / 10) ---------------------- */
@@ -336,19 +458,58 @@ function telaListaTemas(modulo, temas, titulo, icone) {
     <div class="tela">
       ${temas.map(t => {
         const st = ESTADO[modulo][t.id] || {};
-        return `<div class="card" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="navegar('/${modulo}/${t.id}')">
-          <div>
-            <span style="font-size:22px">${t.icone || icone}</span>
-            <strong> Tema ${t.numero} — ${t.titulo}</strong>
-            ${t.pendente ? '<div class="legenda">Conteúdo pendente</div>' : ''}
+        const chave = `${modulo}:${t.id}`;
+        const favoritado = ESTADO.favoritos.includes(chave);
+        return `<div class="card card-tema">
+          <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="navegar('/${modulo}/${t.id}')">
+            <div>
+              <span style="font-size:22px">${t.icone || icone}</span>
+              <strong> Tema ${t.numero} — ${t.titulo}</strong>
+              ${t.pendente ? '<div class="legenda">Conteúdo pendente</div>' : ''}
+            </div>
+            <div>${st.concluido ? '✅' : (t.pendente ? '🔒' : '▶️')}</div>
           </div>
-          <div>${st.concluido ? '✅' : (t.pendente ? '🔒' : '▶️')}</div>
+          <button class="btn-favorito" onclick="event.stopPropagation(); toggleFavorito('${modulo}','${t.id}')" aria-label="Favoritar">${favoritado ? '⭐' : '☆'}</button>
         </div>`;
       }).join('')}
     </div>`;
 }
 
-/* ---------------------- Motor genérico de Tema/Quiz (Português + Matemática) ---------------------- */
+/* ---------------------- Favoritos ---------------------- */
+function toggleFavorito(modulo, temaId) {
+  const chave = `${modulo}:${temaId}`;
+  const i = ESTADO.favoritos.indexOf(chave);
+  if (i >= 0) ESTADO.favoritos.splice(i, 1);
+  else ESTADO.favoritos.push(chave);
+  salvar();
+  renderizar();
+}
+
+function telaFavoritos() {
+  const itens = ESTADO.favoritos.map(chave => {
+    const [modulo, temaId] = chave.split(':');
+    const tema = arrayDoModulo(modulo).find(t => t.id === temaId);
+    if (!tema) return null;
+    const icones = { portugues: '📖', matematica: '🧮', redacao: '✍️' };
+    return { modulo, temaId, titulo: tema.titulo, icone: tema.icone || icones[modulo] };
+  }).filter(Boolean);
+
+  app().innerHTML = `
+    ${topbar('Favoritos', '/dashboard')}
+    <div class="tela">
+      ${itens.length ? itens.map(it => `
+        <div class="card card-tema">
+          <div style="cursor:pointer" onclick="navegar('/${it.modulo}/${it.temaId}')">
+            <span style="font-size:22px">${it.icone}</span>
+            <strong> ${it.titulo}</strong>
+          </div>
+          <button class="btn-favorito" onclick="toggleFavorito('${it.modulo}','${it.temaId}')" aria-label="Remover dos favoritos">⭐</button>
+        </div>
+      `).join('') : '<p class="legenda">Você ainda não marcou nenhum tema como favorito. Toque na estrela ☆ ao lado de um tema para guardá-lo aqui.</p>'}
+    </div>`;
+}
+
+/* ---------------------- Motor genérico de Tema/Quiz (Português + Matemática + Redação-quiz) ---------------------- */
 function telaTema(modulo, temas, temaId) {
   const tema = temas.find(t => t.id === temaId);
   if (!tema) return navegar(`/${modulo}`);
@@ -358,7 +519,7 @@ function telaTema(modulo, temas, temaId) {
       ${topbar(tema.titulo, `/${modulo}`)}
       <div class="tela">
         <div class="aviso-pendente">
-          ⏳ Conteúdo pendente: o Volume ${modulo === 'portugues' ? 4 : 5} ainda não trouxe o texto completo (explicação e as 5 perguntas) deste tema.
+          ⏳ Conteúdo pendente para este tema.
           ${tema.dica ? `<br><br><em>O que já foi especificado:</em> ${tema.dica}` : ''}
           <br><br>Envie o conteúdo oficial deste tema para liberá-lo na plataforma.
         </div>
@@ -420,7 +581,7 @@ function irEtapaTema(modulo, temaId, etapa, extra) {
 }
 
 function responderQuiz(modulo, temaId, indiceEscolhido) {
-  const temas = modulo === 'portugues' ? PORTUGUES : MATEMATICA;
+  const temas = arrayDoModulo(modulo);
   const tema = temas.find(t => t.id === temaId);
   const st = ESTADO[modulo][temaId];
   const pergunta = tema.perguntas[st.q];
@@ -462,6 +623,9 @@ function telaResultadoTema(modulo, temas, temaId) {
   if (modulo === 'matematica' && MATEMATICA.filter(t => !t.pendente).every(t => ESTADO.matematica[t.id] && ESTADO.matematica[t.id].concluido)) {
     desbloquearConquista('matematica_concluida');
   }
+  if (modulo === 'redacao' && REDACAO_TEMAS.filter(t => !t.pendente).every(t => ESTADO.redacao[t.id] && ESTADO.redacao[t.id].concluido)) {
+    desbloquearConquista('redacao_concluida');
+  }
 
   app().innerHTML = `
     ${topbar(tema.titulo, `/${modulo}`)}
@@ -488,7 +652,7 @@ function telaTemaRedacao(temaId) {
     app().innerHTML = `
       ${topbar(tema.titulo, '/redacao')}
       <div class="tela">
-        <div class="aviso-pendente">⏳ Conteúdo pendente: o Volume 6 ainda não detalhou totalmente este tema.
+        <div class="aviso-pendente">⏳ Conteúdo pendente para este tema.
         ${tema.dica ? `<br><br><em>O que já foi especificado:</em> ${tema.dica}` : ''}
         </div>
       </div>`;
@@ -503,6 +667,10 @@ function telaTemaRedacao(temaId) {
     ${topbar(tema.titulo, '/redacao')}
     <div class="tela">
       <div class="msg sah"><span class="nome">Sah</span>${tema.mensagemSah || 'Vamos escrever juntas!'}</div>
+      ${tema.guia ? `<div class="card" style="background:var(--lilas-suave)">
+        <p class="legenda"><strong>Antes de escrever, pense em:</strong></p>
+        ${tema.guia.map(p => `<p class="legenda">• ${p}</p>`).join('')}
+      </div>` : ''}
       <div class="card">
         <strong>Tema:</strong> ${tema.temaRedacao || (tema.temasSorteio ? tema.temasSorteio[Math.floor(Math.random() * tema.temasSorteio.length)] : '')}
       </div>
@@ -639,16 +807,39 @@ function telaResultadoEntrevista() {
     </div>`;
 }
 
-/* ---------------------- Meu Caderno ---------------------- */
+/* ---------------------- Meu Caderno (Volume 1) ---------------------- */
 function telaCaderno() {
   app().innerHTML = `
     ${topbar('Meu Caderno', '/dashboard')}
     <div class="tela">
-      <p class="legenda">Suas redações e anotações de cursos ficam guardadas aqui.</p>
+      <div class="card">
+        <h2>📝 Nova anotação</h2>
+        <label class="legenda">Categoria</label>
+        <select id="novaCategoria" style="width:100%;padding:12px 14px;border-radius:14px;border:2px solid var(--rosa-claro);font-family:var(--fonte-principal);font-size:var(--tam-texto);background:var(--branco);color:var(--texto-principal)">
+          ${CATEGORIAS_CADERNO.map(c => `<option value="${c}">${c}</option>`).join('')}
+        </select>
+        <br><br>
+        <textarea id="novaAnotacao" rows="3" placeholder="Escreva sua anotação..."></textarea>
+        <br><br>
+        <button class="btn" onclick="adicionarNotaCaderno()">Salvar anotação</button>
+      </div>
+
+      <h2>📚 Minhas anotações</h2>
+      ${ESTADO.caderno.length ? ESTADO.caderno.slice().reverse().map(n => `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="legenda"><strong>${n.categoria}</strong> · ${new Date(n.data).toLocaleDateString('pt-BR')}</span>
+            <button class="btn-favorito" onclick="removerNotaCaderno('${n.id}')" aria-label="Remover anotação">🗑️</button>
+          </div>
+          <p>${n.texto}</p>
+        </div>
+      `).join('') : '<p class="legenda">Você ainda não fez nenhuma anotação livre.</p>'}
+
       <h2>✍️ Redações</h2>
       ${ESTADO.redacoesEscritas.length ? ESTADO.redacoesEscritas.map(r => `
         <div class="card"><p class="legenda">${new Date(r.data).toLocaleDateString('pt-BR')}</p><p>${r.texto}</p></div>
       `).join('') : '<p class="legenda">Você ainda não escreveu nenhuma redação.</p>'}
+
       <h2>📚 Cursos</h2>
       ${CURSOS.map(c => {
         const st = ESTADO.cursos[c.id];
@@ -662,13 +853,19 @@ function telaCaderno() {
     </div>`;
 }
 
-/* ---------------------- Favoritos ---------------------- */
-function telaFavoritos() {
-  app().innerHTML = `
-    ${topbar('Favoritos', '/dashboard')}
-    <div class="tela">
-      <p class="legenda">Em breve você poderá marcar temas e conteúdos como favoritos para revisar rapidamente.</p>
-    </div>`;
+function adicionarNotaCaderno() {
+  const categoria = document.getElementById('novaCategoria').value;
+  const texto = document.getElementById('novaAnotacao').value.trim();
+  if (!texto) { alert('Escreva algo antes de salvar. 💗'); return; }
+  ESTADO.caderno.push({ id: 'nota_' + Date.now(), categoria, texto, data: new Date().toISOString() });
+  salvar();
+  renderizar();
+}
+
+function removerNotaCaderno(id) {
+  ESTADO.caderno = ESTADO.caderno.filter(n => n.id !== id);
+  salvar();
+  renderizar();
 }
 
 /* ---------------------- Conquistas ---------------------- */
@@ -744,10 +941,13 @@ function reiniciarJornada() {
 /* ---------------------- Painel administrativo da Sah (Volume 8) ---------------------- */
 function telaAdmin() {
   const totalRespostasEntrevista = ESTADO.entrevistas.length;
+  const perfil = ESTADO.perfilComportamental;
+  const NOMES_PERFIL = { dominancia: 'Dominância', influencia: 'Influência', estabilidade: 'Estabilidade', conformidade: 'Conformidade' };
+
   app().innerHTML = `
     ${topbar('Painel da Sah', '/dashboard')}
     <div class="tela">
-      <div class="aviso-pendente">Este painel é uma versão simplificada (Volume 8). Como o site é 100% estático, não há login protegido de verdade — para produção, use um backend com autenticação.</div>
+      <div class="aviso-pendente">Este painel é uma versão simplificada (Volume 8). Como o site é 100% estático, não há login protegido de verdade — para produção, use um backend com autenticação. Nenhuma informação desta página é mostrada para a Mayara.</div>
       <div class="card">
         <h2>👩 ${ESTADO.nome}</h2>
         <p class="legenda">Início da jornada: ${ESTADO.iniciouEm || '-'}</p>
@@ -755,19 +955,33 @@ function telaAdmin() {
         <p class="legenda">Sequência de dias: ${ESTADO.diasSeguidos}</p>
         ${barraProgresso(progressoGeral())}
       </div>
+
+      ${perfil ? `<div class="card">
+        <h2>🧭 Perfil Comportamental</h2>
+        <p class="legenda">Perfil predominante: <strong>${NOMES_PERFIL[perfil.dominante]}</strong> · Secundário: <strong>${NOMES_PERFIL[perfil.secundario]}</strong></p>
+        ${Object.keys(NOMES_PERFIL).map(chave => `
+          <p class="legenda" style="margin-bottom:2px">${NOMES_PERFIL[chave]} — ${perfil.percentuais[chave]}%</p>
+          ${barraProgresso(perfil.percentuais[chave])}
+        `).join('')}
+        <p class="legenda" style="margin-top:10px">${perfil.resumo}</p>
+      </div>` : `<div class="card"><p class="legenda">A Mayara ainda não respondeu o questionário inicial.</p></div>`}
+
       <div class="card">
         <h2>Evolução geral</h2>
         <p class="legenda">Cursos concluídos: ${Object.values(ESTADO.cursos).filter(c => c.concluido).length} / ${CURSOS.length}</p>
         <p class="legenda">Simulações de entrevista: ${totalRespostasEntrevista}</p>
         <p class="legenda">Redações escritas: ${ESTADO.redacoesEscritas.length}</p>
+        <p class="legenda">Anotações no caderno: ${ESTADO.caderno.length}</p>
         <p class="legenda">Conquistas desbloqueadas: ${ESTADO.conquistas.length} / ${CONQUISTAS_DEF.length}</p>
       </div>
+
       <div class="card">
         <h2>Histórico de entrevistas</h2>
         ${ESTADO.entrevistas.length ? ESTADO.entrevistas.map(e => `
           <p class="legenda">${new Date(e.data).toLocaleDateString('pt-BR')} — ${e.qtdPerguntas} perguntas, média de ${e.mediaPalavras} palavras/resposta</p>
         `).join('') : '<p class="legenda">Nenhuma simulação realizada ainda.</p>'}
       </div>
+
       <button class="btn secundario" onclick="exportarDados()">📄 Exportar dados (JSON)</button>
     </div>`;
 }
