@@ -14,7 +14,7 @@ const ONBOARDING = [
     autor: 'sah',
     destaque: true,
     mensagens: [
-      { negrito: true, texto: `Oii Mayara, seja bem vinda!!` },
+      { negrito: true, texto: `Oii Mayara, seja bem vinda` },
       { texto: `Criei este material especialmente para você. Meu objetivo é ajudar você a conquistar sua primeira oportunidade de trabalho.` },
       { texto: `Durante toda essa jornada vou compartilhar dicas, exercícios e tudo aquilo que pode fazer diferença na sua primeira entrevista.` },
       { texto: `Você poderá voltar quando quiser, repetir qualquer atividade e acompanhar toda a sua evolução.` },
