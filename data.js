@@ -12,7 +12,14 @@ const ONBOARDING = [
   {
     id: 'tela1',
     autor: 'sah',
-    texto: `Oi, Mayara! Seja muito bem-vinda! Criei este material especialmente para você. Meu objetivo é ajudar você a conquistar sua primeira oportunidade de trabalho. Durante toda essa jornada vou compartilhar dicas, exercícios e tudo aquilo que pode fazer diferença na sua primeira entrevista. Não se preocupe se hoje você ainda não sabe como funciona um processo seletivo. É justamente por isso que estou aqui. Vamos aprender juntas, um passo de cada vez. Você poderá voltar quando quiser, repetir qualquer atividade e acompanhar toda a sua evolução. Pode contar comigo durante toda essa jornada.`,
+    destaque: true,
+    mensagens: [
+      { negrito: true, texto: `Oii Mayara, seja bem vinda` },
+      { texto: `Criei este material especialmente para você. Meu objetivo é ajudar você a conquistar sua primeira oportunidade de trabalho.` },
+      { texto: `Durante toda essa jornada vou compartilhar dicas, exercícios e tudo aquilo que pode fazer diferença na sua primeira entrevista.` },
+      { texto: `Você poderá voltar quando quiser, repetir qualquer atividade e acompanhar toda a sua evolução.` },
+      { texto: `Conte comigo e bons estudos 💖` }
+    ],
     botao: 'Começar minha jornada'
   },
   {
