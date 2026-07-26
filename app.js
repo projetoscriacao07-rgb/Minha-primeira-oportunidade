@@ -180,7 +180,8 @@ function telaOnboarding() {
         ${barraProgresso(Math.round((passo / ONBOARDING.length) * 100))}
         <span class="avatar-sah">👩🏻‍💼</span>
         <div class="conversa">
-          ${item.mensagens.map(m => `<div class="msg sah"><span class="nome">Sah</span>${m.negrito ? `<strong>${m.texto}</strong>` : m.texto}</div>`).join('')}
+          <span class="nome-conversa">Sah</span>
+          ${item.mensagens.map(m => `<div class="msg sah">${m.negrito ? `<strong>${m.texto}</strong>` : m.texto}</div>`).join('')}
         </div>
         <div style="flex:1"></div>
         <button class="btn" onclick="avancarOnboarding()">${item.botao} ✨</button>

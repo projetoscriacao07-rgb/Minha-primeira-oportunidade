@@ -169,6 +169,16 @@ h2 { font-size: var(--tam-subtitulo); font-weight: 600; margin: 0 0 8px; }
   border-bottom-right-radius: 6px;
 }
 
+.nome-conversa {
+  font-weight: 700;
+  color: var(--rosa-escuro);
+  font-size: var(--tam-legenda);
+  margin-bottom: -4px;
+}
+.tela-onboarding-destaque .nome-conversa {
+  color: var(--branco);
+}
+
 /* ---------- Avatar ---------- */
 .avatar-sah {
   width: 40px; height: 40px; border-radius: 50%;
