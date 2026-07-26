@@ -1,11 +1,10 @@
 /* ==========================================================================
    Minha Primeira Oportunidade — Motor da aplicação
-   Site 100% estático (HTML/CSS/JS puro) para funcionar em GitHub Pages,
-   sem necessidade de servidor. Progresso salvo em localStorage no
-   navegador da Mayara (ver README para detalhes e limitações).
+   Progresso salvo no Firestore (Firebase), compartilhado entre a conta da
+   Mayara e a conta da Sah — nenhuma das duas perde acesso ao trocar de
+   aparelho. Login obrigatório (e-mail e senha cadastrados no Firebase
+   Authentication) antes de usar a plataforma.
    ========================================================================== */
-
-const STORAGE_KEY = 'mpo_state_v1';
 
 function estadoPadrao() {
   return {
@@ -31,25 +30,44 @@ function estadoPadrao() {
   };
 }
 
-function carregarEstado() {
+let ESTADO = estadoPadrao();
+let USUARIO_LOGADO = null;
+let SALVANDO = false;
+let SALVAR_NOVAMENTE = false;
+
+/* Salva o ESTADO inteiro no Firestore. Como várias telas chamam salvar()
+   em sequência rápida, evitamos disparar muitas gravações ao mesmo tempo. */
+async function salvar() {
+  if (!USUARIO_LOGADO) return;
+  if (SALVANDO) { SALVAR_NOVAMENTE = true; return; }
+  SALVANDO = true;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return estadoPadrao();
-    return Object.assign(estadoPadrao(), JSON.parse(raw));
+    await DOC_ESTADO.set(ESTADO);
   } catch (e) {
-    console.error('Não foi possível carregar o progresso salvo.', e);
-    return estadoPadrao();
+    console.error('Não foi possível salvar o progresso no Firestore.', e);
+    mostrarErroConexao();
+  } finally {
+    SALVANDO = false;
+    if (SALVAR_NOVAMENTE) { SALVAR_NOVAMENTE = false; salvar(); }
   }
 }
 
-let ESTADO = carregarEstado();
-
-function salvar() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ESTADO));
-  } catch (e) {
-    console.error('Não foi possível salvar o progresso.', e);
-  }
+function mostrarErroConexao() {
+  const el = document.createElement('div');
+  el.textContent = '⚠️ Sem conexão — verifique a internet para salvar o progresso.';
+  el.style.position = 'fixed';
+  el.style.top = '10px';
+  el.style.left = '50%';
+  el.style.transform = 'translateX(-50%)';
+  el.style.background = '#FFE6E6';
+  el.style.color = '#444';
+  el.style.padding = '10px 16px';
+  el.style.borderRadius = '14px';
+  el.style.zIndex = '999';
+  el.style.fontFamily = 'Poppins, sans-serif';
+  el.style.fontSize = '13px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
 }
 
 function registrarAcesso() {
@@ -90,6 +108,69 @@ function mostrarConfete() {
   setTimeout(() => el.remove(), 2200);
 }
 
+/* ---------------------- Login (Firebase Authentication) ---------------------- */
+function telaLogin(mensagemErro) {
+  app().innerHTML = `
+    <div class="tela">
+      <div style="flex:1"></div>
+      <div class="centro">
+        <span style="font-size:40px">💗</span>
+        <h1>Minha Primeira Oportunidade</h1>
+        <p class="texto-secundario">Entre com seu e-mail e senha para continuar</p>
+      </div>
+      <div class="card">
+        <label class="legenda">E-mail</label>
+        <input type="text" id="loginEmail" placeholder="seuemail@exemplo.com" autocomplete="username">
+        <br><br>
+        <label class="legenda">Senha</label>
+        <input type="password" id="loginSenha" placeholder="Sua senha" autocomplete="current-password">
+      </div>
+      ${mensagemErro ? `<div class="aviso-pendente">${mensagemErro}</div>` : ''}
+      <button class="btn" id="btnEntrar">Entrar ✨</button>
+      <div style="flex:1"></div>
+    </div>`;
+  document.getElementById('btnEntrar').onclick = fazerLogin;
+}
+
+function fazerLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const senha = document.getElementById('loginSenha').value;
+  if (!email || !senha) {
+    telaLogin('Preencha o e-mail e a senha para entrar.');
+    return;
+  }
+  const botao = document.getElementById('btnEntrar');
+  botao.disabled = true;
+  botao.textContent = 'Entrando...';
+  auth.signInWithEmailAndPassword(email, senha).catch((erro) => {
+    console.error(erro);
+    telaLogin('E-mail ou senha incorretos. Tente novamente. 💗');
+  });
+}
+
+function fazerLogout() {
+  if (confirm('Deseja realmente sair da sua conta?')) {
+    auth.signOut();
+  }
+}
+
+/* Carrega o progresso do Firestore assim que o login é confirmado */
+async function carregarEstadoFirestore() {
+  try {
+    const doc = await DOC_ESTADO.get();
+    if (doc.exists) {
+      ESTADO = Object.assign(estadoPadrao(), doc.data());
+    } else {
+      ESTADO = estadoPadrao();
+      await DOC_ESTADO.set(ESTADO);
+    }
+  } catch (e) {
+    console.error('Não foi possível carregar o progresso do Firestore.', e);
+    ESTADO = estadoPadrao();
+    mostrarErroConexao();
+  }
+}
+
 /* ---------------------- Roteador ---------------------- */
 function navegar(rota) {
   window.location.hash = rota;
@@ -99,11 +180,35 @@ function rotaAtual() {
   return window.location.hash.replace('#', '') || (ESTADO.onboardingConcluido ? '/dashboard' : '/onboarding');
 }
 
+/* E-mails que devem cair direto no painel da Sah (administradora), em vez
+   da jornada da Mayara. Troque pelo e-mail que você mesma cadastrou no
+   Firebase Authentication para você (pode adicionar mais de um e-mail
+   na lista, separados por vírgula). */
+const ADMIN_EMAILS = ['sabrina.z77@hotmail.com'];
+
+function ehAdmin() {
+  return !!(USUARIO_LOGADO && USUARIO_LOGADO.email && ADMIN_EMAILS.includes(USUARIO_LOGADO.email.toLowerCase()));
+}
+
 window.addEventListener('hashchange', renderizar);
-window.addEventListener('DOMContentLoaded', () => {
+
+auth.onAuthStateChanged(async (usuario) => {
+  USUARIO_LOGADO = usuario;
+  if (!usuario) {
+    telaLogin();
+    return;
+  }
+  app().innerHTML = `<div class="tela centro"><p>💗 Preparando sua próxima missão...</p></div>`;
+  await carregarEstadoFirestore();
+
+  if (ehAdmin()) {
+    navegar('/admin');
+    return;
+  }
+
   registrarAcesso();
   desbloquearConquista('primeiro_acesso');
-  if (!window.location.hash) {
+  if (!window.location.hash || rotaAtual() === '/admin') {
     navegar(ESTADO.onboardingConcluido ? '/dashboard' : '/onboarding');
   } else {
     renderizar();
@@ -113,8 +218,14 @@ window.addEventListener('DOMContentLoaded', () => {
 const app = () => document.getElementById('app');
 
 function renderizar() {
+  if (!USUARIO_LOGADO) { telaLogin(); return; }
   const rota = rotaAtual();
   const partes = rota.split('/').filter(Boolean);
+
+  /* A conta da Sah só enxerga o painel administrativo.
+     A conta da Mayara nunca consegue abrir o painel administrativo. */
+  if (ehAdmin() && partes[0] !== 'admin') { navegar('/admin'); return; }
+  if (!ehAdmin() && partes[0] === 'admin') { navegar('/dashboard'); return; }
 
   if (partes[0] === 'onboarding') return telaOnboarding();
   if (partes[0] === 'dashboard') return telaDashboard();
@@ -923,16 +1034,18 @@ function telaConfiguracoes() {
     ${topbar('Configurações', '/dashboard')}
     <div class="tela">
       <div class="card">
-        <p class="legenda">Todo o seu progresso é salvo automaticamente neste navegador.</p>
+        <p class="legenda">Conectada como: <strong>${USUARIO_LOGADO ? USUARIO_LOGADO.email : '-'}</strong></p>
+        <p class="legenda">Seu progresso é salvo automaticamente na nuvem e pode ser acessado de qualquer aparelho, bastando fazer login com o mesmo e-mail.</p>
       </div>
       <button class="btn secundario" onclick="reiniciarJornada()">Reiniciar jornada</button>
+      <button class="btn secundario" onclick="fazerLogout()">Sair da conta</button>
     </div>`;
 }
 
-function reiniciarJornada() {
+async function reiniciarJornada() {
   if (confirm('Isso vai apagar todo o seu progresso nesta plataforma. Deseja continuar?')) {
-    localStorage.removeItem(STORAGE_KEY);
     ESTADO = estadoPadrao();
+    await salvar();
     navegar('/onboarding');
     location.reload();
   }
@@ -945,9 +1058,9 @@ function telaAdmin() {
   const NOMES_PERFIL = { dominancia: 'Dominância', influencia: 'Influência', estabilidade: 'Estabilidade', conformidade: 'Conformidade' };
 
   app().innerHTML = `
-    ${topbar('Painel da Sah', '/dashboard')}
+    ${topbar('Painel da Sah', null)}
     <div class="tela">
-      <div class="aviso-pendente">Este painel é uma versão simplificada (Volume 8). Como o site é 100% estático, não há login protegido de verdade — para produção, use um backend com autenticação. Nenhuma informação desta página é mostrada para a Mayara.</div>
+      <div class="aviso-pendente">Conectada como <strong>${USUARIO_LOGADO ? USUARIO_LOGADO.email : '-'}</strong>. Nenhuma informação desta página é mostrada para a Mayara — a conta dela não consegue abrir este painel.</div>
       <div class="card">
         <h2>👩 ${ESTADO.nome}</h2>
         <p class="legenda">Início da jornada: ${ESTADO.iniciouEm || '-'}</p>
@@ -983,6 +1096,7 @@ function telaAdmin() {
       </div>
 
       <button class="btn secundario" onclick="exportarDados()">📄 Exportar dados (JSON)</button>
+      <button class="btn secundario" onclick="fazerLogout()">Sair da conta</button>
     </div>`;
 }
 
