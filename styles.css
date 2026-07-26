@@ -114,6 +114,29 @@ h2 { font-size: var(--tam-subtitulo); font-weight: 600; margin: 0 0 8px; }
   box-shadow: 0 2px 12px rgba(238, 111, 169, 0.08);
 }
 
+/* ---------- Telas do onboarding (Volume 2) ---------- */
+.tela-onboarding-destaque {
+  background: var(--rosa-escuro);
+}
+.tela-onboarding-destaque .msg.sah {
+  background: var(--branco);
+  color: var(--texto-principal);
+}
+.tela-onboarding-destaque .barra-progresso {
+  background: rgba(255,255,255,0.35);
+}
+.tela-onboarding-destaque .barra-progresso > div {
+  background: var(--branco);
+}
+.tela-onboarding-destaque .btn {
+  background: var(--branco);
+  color: var(--rosa-escuro);
+}
+
+.tela-onboarding {
+  background: var(--rosa-claro);
+}
+
 /* ---------- Conversa (estilo mensagens) ---------- */
 .conversa {
   display: flex;
