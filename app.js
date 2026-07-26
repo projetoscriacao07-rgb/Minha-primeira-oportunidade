@@ -172,8 +172,24 @@ function telaOnboarding() {
     return;
   }
 
+  const telaClasse = item.destaque ? 'tela tela-onboarding-destaque' : 'tela tela-onboarding';
+
+  if (item.mensagens) {
+    app().innerHTML = `
+      <div class="${telaClasse}">
+        ${barraProgresso(Math.round((passo / ONBOARDING.length) * 100))}
+        <span class="avatar-sah">👩🏻‍💼</span>
+        <div class="conversa">
+          ${item.mensagens.map(m => `<div class="msg sah">${m.negrito ? `<strong>${m.texto}</strong>` : m.texto}</div>`).join('')}
+        </div>
+        <div style="flex:1"></div>
+        <button class="btn" onclick="avancarOnboarding()">${item.botao} ✨</button>
+      </div>`;
+    return;
+  }
+
   app().innerHTML = `
-    <div class="tela">
+    <div class="${telaClasse}">
       ${barraProgresso(Math.round((passo / ONBOARDING.length) * 100))}
       <span class="avatar-sah">👩🏻‍💼</span>
       <div class="msg sah"><span class="nome">Sah</span>${item.texto.replace(/\n/g, '<br>')}</div>
